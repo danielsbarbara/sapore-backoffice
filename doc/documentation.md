@@ -21,3 +21,6 @@
 -Caso seja selecionado Menu, aparecerá outro **SELECT** para filtrarmos por submenu (Massas, Pizzas, Carnes, Peixe).
 -Depois de selecionado os filtros, aparecerá o **CARD** para então introduzirmos os dados referente ao prato que queremos adicionar.
 
+
+
+Fazer o botão de DELETE funcionar, replicar a DB para testes.
