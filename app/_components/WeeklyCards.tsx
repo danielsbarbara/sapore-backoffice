@@ -1,9 +1,10 @@
 "use client"
 import { ObjectId } from "mongodb"
-import { useDay } from "./DayContext"
-import { DayCard } from "./DayCard"
-import { MdDelete } from "react-icons/md"
+import { useState } from "react"
 import { IoIosAddCircle } from "react-icons/io"
+import { DayCard } from "./DayCard"
+import { useDay } from "./DayContext"
+import { Modal } from "./Modal"
 
 export interface CardType {
     _id: ObjectId,
@@ -29,17 +30,20 @@ export interface CardTypeProps {
 }
 
 export const WeeklyCards: React.FC<CardTypeProps> = ({ weeklyArray }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false)
     const { day } = useDay()
     const [dayCard] = weeklyArray.filter(item => item.day.pt === day)
+
     return (
-        <div className="max-w-[57rem] flex flex-col items-center">
-            <p className="text-xl">{dayCard.day.pt}</p>
+        <div className="max-w-[57rem] flex flex-col items-center pt-8">
             <div className="flex justify-center flex-wrap gap-4">
-                {dayCard.menu.map(item => <DayCard menu={item} />)}
+                {dayCard.menu.map((item, i: number) => <DayCard menu={item} day={day} key={i}/>)}
             </div>
-            <button className="pt-10 px-2 self-end">
+            <button onClick={() => setIsOpen(() => !isOpen)}
+                className="pt-10 px-2 self-end">
                 <IoIosAddCircle size={50} />
             </button>
+            {isOpen && <Modal isOpen={isOpen} setIsOpen={setIsOpen} />}
         </div>
     )
 }

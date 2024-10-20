@@ -18,7 +18,7 @@ export const MenuCards: React.FC = () => {
     return (
         <div className="flex flex-col gap-4">
             {menuCards.map((item, i: number) =>
-            <Link href={`${item.path}`}>
+            <Link href={`${item.path}`} key={i}>
                 <div className={`relative w-[10rem] h-[5rem] transform transition 
                 duration-500 hover:scale-110 ${pathToNr === i && 'scale-110'} 
                 hover:cursor-pointer hover:drop-shadow-md`}

@@ -3,10 +3,13 @@ import { useDay } from "./DayContext"
 
 
 export const SelectSemanal: React.FC = () => {
-    const {day, handleChange} = useDay()
+    const { day, handleChange } = useDay()
     return (
         <>
-            <select value={day} onChange={(e) => handleChange(e)}>
+            <select
+                className="p-2 text-lg font-bold rounded-lg"
+                value={day}
+                onChange={(e) => handleChange(e)}>
                 <option value="Segunda-Feira">Segunda-Feira</option>
                 <option value="Terça-Feira">Terça-Feira</option>
                 <option value="Quarta-Feira">Quarta-Feira</option>
