@@ -64,3 +64,4 @@ export const updateMenu = async (name: string, price: string, text: string, orig
         { $set: { 'pt.food.$.name': name, 'pt.food.$.price': price, 'pt.food.$.description': text } })
     return result.acknowledged
 }
+

@@ -1,5 +1,5 @@
 "use client"
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 
 interface SelectProviderProps {
     children: React.ReactNode
@@ -25,9 +25,6 @@ export const SelectProvider: React.FC<SelectProviderProps> = ({ children }) => {
 export const useSelect = (type?: string) => {
     const context = useContext(SelectContext)
     if (!context) throw new Error('Deves usar o context correctamente')
-
-    const { selectType, setSelectType } = context
-    if (selectType === '' && type) setSelectType(() => type)
 
     return context
 }

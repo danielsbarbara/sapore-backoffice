@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb"
+import { dataType } from "../_components/Box"
 
 export const deleteMenu = async (menuName: string, day: string): Promise<boolean> => {
     const options = {
@@ -36,11 +37,11 @@ export const addMenu = async (menuName: string, menu_id: ObjectId, day: string) 
     return true
 }
 
-export const updateMenu = async(name: string, price: string, text: string, day: string, originalName: string) => {
+export const updateMenu = async (name: string, price: string, text: string, day: string, originalName: string) => {
 
     const options = {
         method: 'POST',
-        header: {'Content-Type': 'application/app'},
+        header: { 'Content-Type': 'application/app' },
         body: JSON.stringify({
             day,
             name,
@@ -50,6 +51,21 @@ export const updateMenu = async(name: string, price: string, text: string, day: 
         })
     }
     const res = await fetch('/api/update-menu', options)
-    if(res.status === 200) return true
+    if (res.status === 200) return true
     return false
+}
+
+export const fetchMenuByType = async (menuType: string) => {
+    if (!menuType) return
+
+    const options = {
+        method: 'GET',
+        header: { 'Content-type': 'application/json' }
+    }
+
+    const res = await fetch(`/api/get-menu/${menuType}`, options)
+    if (res.status === 200) {
+        const body = await res.json()
+        return await body.menus as dataType[]
+    }
 }

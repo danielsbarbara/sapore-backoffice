@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from 'next/font/google';
 import { Menu4Layout } from "./_components/Menu4Layout";
 import "./globals.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.className} antialiased flex bg-gray-300`}>
         <Menu4Layout />
-        {children}
+          {children}
       </body>
     </html>
   );
