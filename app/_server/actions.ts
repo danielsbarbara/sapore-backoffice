@@ -69,3 +69,25 @@ export const fetchMenuByType = async (menuType: string) => {
         return await body.menus as dataType[]
     }
 }
+
+export const fetchDrinksMenu = async (drinkType: string) => {
+    if (!drinkType) return
+
+    const options = {
+        method: 'GET',
+        header: { 'Content-Type': 'application/json' }
+    }
+
+    interface DataType {
+        pt: {
+            name: string
+            food: { name: string, price: string }[]
+        }
+    }
+
+    const res = await fetch(`/api/get-drinks/${drinkType}`)
+    if (res.status === 200) {
+        const body = await res.json()
+        return body.result as DataType[]
+    }
+}

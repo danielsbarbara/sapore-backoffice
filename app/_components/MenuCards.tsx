@@ -15,6 +15,7 @@ const menuCards = [
 export const MenuCards: React.FC = () => {
     const pathName = usePathname()
     const pathToNr = getIndexOfPathName(pathName)
+   
     return (
         <div className="flex flex-col gap-4">
             {menuCards.map((item, i: number) =>

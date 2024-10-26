@@ -8,7 +8,7 @@ const queryClient = new QueryClient()
 
 const page: React.FC = () => {
     return (
-        <div className="bg-red-300 w-full">
+        <div className="w-full">
             <QueryClientProvider client={queryClient}>
                 <SelectProvider>
                     <DinamicSelect type="dessertsSelect" selectValue="sweets" />

@@ -22,8 +22,8 @@ export const Card: React.FC<CardProps> = ({ menu }) => {
             <div className="flex justify-between px-2">
                 {isEdit ?
                     <>
-                        <input value={name} className="p-1 w-[13rem] border-[1px] border-black/30 rounded-lg"/>
-                        <input value={price} className="p-1 w-[4rem] text-right border-[1px] border-black/30 rounded-lg" />
+                        <input defaultValue={name} className="p-1 w-[13rem] border-[1px] border-black/30 rounded-lg"/>
+                        <input defaultValue={price} className="p-1 w-[4rem] text-right border-[1px] border-black/30 rounded-lg" />
                     </>
                     :
                     <>

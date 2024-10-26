@@ -65,3 +65,9 @@ export const updateMenu = async (name: string, price: string, text: string, orig
     return result.acknowledged
 }
 
+
+export const getDrinksByType = async(type: string) => {
+    const collection = await GetCollection(DBname, 'menu')
+    const result = await collection.find({menuType: type }).toArray()
+    return result
+}
