@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb"
 import { DBname, GetCollection } from "./mongoConnect"
+import { NewObjType } from "./actions"
 
 export async function getTipDay() {
     const collection = await GetCollection(DBname, 'tips-of-day')
@@ -32,8 +33,6 @@ export const insertMenu = async (menu: any, day: string) => {
 
 export const getMenuByIdName = async (menuName: string, menu_id: ObjectId, language: string) => {
     const collection = await GetCollection(DBname, 'menu')
-    // const result = await collection.find({
-    //       'pt.food': { $elemMatch: { name: menuName } } }).toArray()
     const result = await collection.aggregate([
         { $match: { _id: new ObjectId(menu_id) } },
         {
@@ -70,4 +69,11 @@ export const getDrinksByType = async(type: string) => {
     const collection = await GetCollection(DBname, 'menu')
     const result = await collection.find({menuType: type }).toArray()
     return result
+}
+
+export const updateAllMenu = async (value: NewObjType): Promise<boolean> =>{
+    const collection = await GetCollection(DBname, 'menu')
+    const result = await collection.updateOne({ 'pt.name': value.menuName, 'pt.food.name': value.oldName }, 
+        { $set: { 'pt.food.$.name': value.name, 'pt.food.$.price': value.price, 'pt.food.$.description': value?.desc } })
+    return result.acknowledged
 }

@@ -26,11 +26,10 @@ interface CardProps {
 export const Box: React.FC<CardProps> = ({menuType}) => {
     const { selectType } = useSelect()
     const { data } = useQuery([menuType, selectType], () => fetchMenuByType(selectType))
-
     return (
         <div className="flex flex-wrap justify-center gap-4 p-3">
             {data?.map((_el) => _el.pt.food.map(el =>
-                <Card menu={el} key={el.name}/>
+                <Card menuType={menuType} menu={el} menuName={_el.pt.name} key={el.name}/>
             ))
             }
         </div>

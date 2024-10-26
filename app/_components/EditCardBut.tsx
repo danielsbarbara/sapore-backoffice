@@ -4,9 +4,10 @@ import { MdEdit } from "react-icons/md"
 interface EditCardButProps{
     isEdit: boolean
     setEdit: React.Dispatch<React.SetStateAction<boolean>>
+    handleSubmit: () => Promise<void | string>
 }
 
-export const EditCardBut: React.FC<EditCardButProps> = ({isEdit, setEdit}) => {
+export const EditCardBut: React.FC<EditCardButProps> = ({isEdit, setEdit, handleSubmit}) => {
 
     return (
         <>
@@ -14,7 +15,7 @@ export const EditCardBut: React.FC<EditCardButProps> = ({isEdit, setEdit}) => {
                 <MdEdit size={30} />
             </button>
                 :
-                <button onClick={() => {}}>
+                <button onClick={() => handleSubmit()}>
                     <FaCheck size={30} />
                 </button>}
         </>

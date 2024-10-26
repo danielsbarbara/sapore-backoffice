@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb"
 import { dataType } from "../_components/Box"
+import { RefObject } from "react"
 
 export const deleteMenu = async (menuName: string, day: string): Promise<boolean> => {
     const options = {
@@ -91,3 +92,38 @@ export const fetchDrinksMenu = async (drinkType: string) => {
         return body.result as DataType[]
     }
 }
+
+interface updateMenuInput {
+    nameRef: RefObject<HTMLInputElement>
+    priceRef: RefObject<HTMLInputElement>
+    descRef: RefObject<HTMLTextAreaElement>
+    menuName: string
+    oldName: string
+}
+
+export interface NewObjType {
+    name: string;
+    price: string;
+    desc: string | undefined;
+    menuName: string;
+    oldName: string;
+}
+
+export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> => {
+    const newObj: NewObjType = {
+        name: values.nameRef.current!.value,
+        price: values.priceRef.current!.value,
+        desc: values.descRef.current?.value,
+        menuName: values.menuName,
+        oldName: values.oldName
+    }
+
+    const options: RequestInit = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newObj)
+    }
+
+    const res: Response = await fetch('/api/update-all-menu', options)
+    return res.status === 200
+}   
