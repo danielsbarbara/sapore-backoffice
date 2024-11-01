@@ -80,6 +80,7 @@ export const fetchDrinksMenu = async (drinkType: string) => {
     }
 
     interface DataType {
+        _id: ObjectId
         pt: {
             name: string
             food: { name: string, price: string }[]
@@ -126,4 +127,35 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
 
     const res: Response = await fetch('/api/update-all-menu', options)
     return res.status === 200
-}   
+}
+
+export const updateDrinkName = async (oldName: string, name: string, _id: ObjectId): Promise<boolean> => {
+    const options: RequestInit = {
+        method: 'POST',
+        headers: { 'Contet-Type': 'application/json' },
+        body: JSON.stringify({ oldName, name, _id })
+    }
+
+    const res: Response = await fetch('api/update-drink/wines', options)
+    if (res.status === 200) {
+        const { result }: { result: boolean } = await res.json()
+        if (typeof result === 'boolean') return result
+    }
+    return false
+}
+
+export const updateDrinks = async (oldName: string, name: string, price: string, id: ObjectId) => {
+    console.log(oldName, name, price, id)
+    const options: RequestInit = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ oldName, name, price, id })
+    }
+
+    const res: Response = await fetch('api/update-drink/drinks', options)
+    if (res.status === 200) {
+        const { result }: { result: boolean } = await res.json()
+        if (typeof result === 'boolean') return result
+    }
+    return false
+}

@@ -1,13 +1,16 @@
+import { ObjectId } from "mongodb"
 import { FaCheck } from "react-icons/fa"
 import { MdEdit } from "react-icons/md"
 
 interface EditCardButProps{
     isEdit: boolean
     setEdit: React.Dispatch<React.SetStateAction<boolean>>
-    handleSubmit: () => Promise<void | string>
+    handleSubmit: (oldName?: string, _id?: ObjectId) => Promise<void | string>
+    oldName?: string
+    _id?: ObjectId
 }
 
-export const EditCardBut: React.FC<EditCardButProps> = ({isEdit, setEdit, handleSubmit}) => {
+export const EditCardBut: React.FC<EditCardButProps> = ({_id, isEdit, setEdit, handleSubmit, oldName}) => {
 
     return (
         <>
@@ -15,7 +18,7 @@ export const EditCardBut: React.FC<EditCardButProps> = ({isEdit, setEdit, handle
                 <MdEdit size={30} />
             </button>
                 :
-                <button onClick={() => handleSubmit()}>
+                <button onClick={() => handleSubmit(oldName, _id)}>
                     <FaCheck size={30} />
                 </button>}
         </>

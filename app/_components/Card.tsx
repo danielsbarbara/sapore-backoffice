@@ -26,7 +26,6 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
     const nameRef = useRef<HTMLInputElement>(null)
     const priceRef = useRef<HTMLInputElement>(null)
     const descRef = useRef<HTMLTextAreaElement>(null)
-    const route = useRouter()
 
     const sucessMsg = (msg: string): string => toast.success(msg)
     const errMsg = (msg: string): string => toast.error(msg)
@@ -34,8 +33,8 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
     const { name, price, imageUrl, description } = menu
 
     const handleSubmit = async (): Promise<void | string> => {
-        if(!nameRef.current?.value || !priceRef.current?.value) return errMsg('Não é premitido campos vazios')
-               
+        if (!nameRef.current?.value || !priceRef.current?.value) return errMsg('Não é premitido campos vazios')
+
         setDisabled(() => true)
         const values = { nameRef, priceRef, descRef, menuName, oldName: name }
         const submit: boolean = await updateAllMenu(values)
