@@ -33,9 +33,9 @@ export const Drink: React.FC<DrinksProps> = ({ _id, item, nameRef, priceRef, dri
             }
             setEditing(() => false)
             return toast.error('Ocorreu um erro a actualizar, tente novamente')
-        }else{
+        } else {
             const updated = await updateDrinks(oldName!, nameRef.current?.value!, priceRef.current?.value!, id!)
-            if(updated){
+            if (updated) {
                 query.invalidateQueries([drinkQuery])
                 setEditing(() => false)
                 return toast.success('Actualizado com sucesso!')
@@ -46,7 +46,7 @@ export const Drink: React.FC<DrinksProps> = ({ _id, item, nameRef, priceRef, dri
     }
 
     return (
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
             <div>
                 {isEditing ?
                     <>
@@ -76,7 +76,7 @@ export const Drink: React.FC<DrinksProps> = ({ _id, item, nameRef, priceRef, dri
                     isEdit={isEditing}
                     setEdit={setEditing} />
                 <button>
-                    <MdDelete size={30} />
+                    <MdDelete size={30}/>
                 </button>
             </div>
         </div>

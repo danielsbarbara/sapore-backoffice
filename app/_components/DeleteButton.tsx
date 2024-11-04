@@ -21,8 +21,8 @@ export const DeleteButton: React.FC<DeleteButton> = ({ menuName, day }) => {
         }
     }
     return (
-        <button onClick={() => handleDelete()}>
-            <MdDelete size={30} />
+        <button className="hover:scale-110 active:scale-95" onClick={() => handleDelete()}>
+            <MdDelete size={30}/>
         </button>
     )
 }

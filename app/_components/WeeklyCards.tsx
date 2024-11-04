@@ -37,7 +37,7 @@ export const WeeklyCards: React.FC<CardTypeProps> = ({ weeklyArray }) => {
     return (
         <div className="max-w-[57rem] flex flex-col items-center pt-8">
             <div className="flex justify-center flex-wrap gap-4">
-                {dayCard.menu.map((item, i: number) => <DayCard menu={item} day={day} key={i}/>)}
+                {dayCard.menu.map((item, i: number) => <DayCard menu={item} day={day} key={Math.random()} time={i}/>)}
             </div>
             <button onClick={() => setIsOpen(() => !isOpen)}
                 className="pt-10 px-2 self-end">

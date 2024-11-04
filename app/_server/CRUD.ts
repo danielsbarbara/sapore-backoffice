@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb"
 import { DBname, GetCollection } from "./mongoConnect"
-import { NewObjType } from "./actions"
+import { DeleteImgParams, NewObjType } from "./actions"
 
 export async function getTipDay() {
     const collection = await GetCollection(DBname, 'tips-of-day')
@@ -89,5 +89,19 @@ export const updateDrink = async(oldName: string, name: string, price: string, i
     const collection = await GetCollection(DBname, 'menu')
     const result = await collection.updateOne({_id: new ObjectId(id), 'pt.food.name': oldName}, 
     { $set: {'pt.food.$.name': name, 'pt.food.$.price': price} })
+    return result.modifiedCount === 1
+}
+
+export const updateImageUrl = async(name: string, menuName: string, url: string) => {
+    const collection = await GetCollection(DBname, 'menu')
+    const result = await collection.updateOne({'pt.name': menuName, 'pt.food.name': name}, 
+    { $set: {'pt.food.$.imageUrl': url} })
+    return result.modifiedCount === 1
+} 
+
+export const deleteImgUrl = async({imageUrl, menuName, name}: DeleteImgParams) =>{
+    const collection = await GetCollection(DBname, 'menu')
+    const result = await collection.updateOne({'pt.name': menuName, 'pt.food.name': name, 'pt.food.imageUrl': imageUrl}, 
+    { $set: {'pt.food.$.imageUrl': ''} })
     return result.modifiedCount === 1
 }

@@ -41,11 +41,11 @@ export const EditButton: React.FC<EditButtonProps> = ({ setUpdating, isEdit, set
     }
     return (
         <>
-            {!isEdit ? <button onClick={() => setEdit(() => !isEdit)}>
+            {!isEdit ? <button className="hover:scale-110 active:scale-95" onClick={() => setEdit(() => !isEdit)}>
                 <MdEdit size={30} />
             </button>
             :
-            <button onClick={() => handleSubmit()}>
+            <button className="hover:scale-110 active:scale-95" onClick={() => handleSubmit()}>
                 <FaCheck size={30} />
             </button>}
         </>

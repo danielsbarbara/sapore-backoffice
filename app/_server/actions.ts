@@ -100,6 +100,7 @@ interface updateMenuInput {
     descRef: RefObject<HTMLTextAreaElement>
     menuName: string
     oldName: string
+    file: File | null
 }
 
 export interface NewObjType {
@@ -116,7 +117,7 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
         price: values.priceRef.current!.value,
         desc: values.descRef.current?.value,
         menuName: values.menuName,
-        oldName: values.oldName
+        oldName: values.oldName,
     }
 
     const options: RequestInit = {
@@ -124,8 +125,25 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newObj)
     }
-
     const res: Response = await fetch('/api/update-all-menu', options)
+
+    if(res.status === 200 && values.file){
+        const formData: FormData = new FormData()
+        formData.append('image', values.file)
+        formData.append('menuName', values.menuName)
+        formData.append('name', values.nameRef.current!.value)
+
+        const options: RequestInit = {
+            method: 'POST',
+            body: formData
+        }
+
+        const res = await fetch('/api/upload-image', options)
+        
+        
+    } else {
+        return res.status === 200
+    }
     return res.status === 200
 }
 
@@ -158,4 +176,30 @@ export const updateDrinks = async (oldName: string, name: string, price: string,
         if (typeof result === 'boolean') return result
     }
     return false
+}
+
+export interface DeleteImgParams {
+        menuName: string
+        name: string
+        imageUrl: string
+}
+
+export interface DeleteImgReturn {
+    type: 'E' | 'S'
+    message: string
+}
+
+export const deleteImage = async(values: DeleteImgParams): Promise<DeleteImgReturn> => {
+    const options: RequestInit = {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(values)
+    }
+     
+    const res = await fetch('/api/delete-imgurl', options)
+
+    if(res.status === 200){
+        return {type: 'S', message: 'Imagem eliminada com sucesso!'}
+    }
+    return {type: 'E', message:'Erro a eliminar a imagem, tenta novamente mais tarde'}
 }

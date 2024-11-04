@@ -15,10 +15,11 @@ export interface DayCardProps {
         price: string
         imageUrl: string
     },
-    day: string
+    day: string,
+    time: number
 }
 
-export const DayCard: React.FC<DayCardProps> = ({ menu, day }) => {
+export const DayCard: React.FC<DayCardProps> = ({ menu, day, time }) => {
     const nameRef = useRef<HTMLInputElement | null>(null)
     const priceRef = useRef<HTMLInputElement | null>(null)
     const textRef = useRef<HTMLTextAreaElement | null>(null)
@@ -27,7 +28,8 @@ export const DayCard: React.FC<DayCardProps> = ({ menu, day }) => {
     const { name, price, imageUrl, ingredients } = menu
     return (
         <div className="flex flex-col justify-between py-2 border-black 
-        border-[2px] w-[27rem] h-[14.4rem] rounded-xl">
+        border-[2px] w-[27rem] h-[14.4rem] rounded-xl transition-all animate-menuFadeIn"
+        style={{animationDelay: `${time / 7}s`, animationFillMode: 'backwards'}}>
             <div className="flex justify-between px-3">
                 {isEdit ?
                     <>

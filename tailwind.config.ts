@@ -1,3 +1,4 @@
+import { transform } from "next/dist/build/swc";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -14,7 +15,8 @@ const config: Config = {
       },
       animation: {
 				modalEntry: 'entrie .5s ease-in-out',
-        modalExit: 'exit .5s ease-in-out'
+        modalExit: 'exit .5s ease-in-out',
+        menuFadeIn: 'menuFade .4s ease-in-out'
 			},
 
 			keyframes: {
@@ -26,6 +28,16 @@ const config: Config = {
         exit: {
           from: { scale: '1' },
 					to: { scale: '0' },
+        },
+        menuFade:{
+          '0%':{
+            opacity: '0',
+            transform: 'translateY(10rem)'
+          },
+          '100%':{
+            opacity: '1',
+            transform: 'translateY(0)'
+          }
         }
 			},
     },

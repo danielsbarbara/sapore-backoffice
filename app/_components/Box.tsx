@@ -28,10 +28,15 @@ export const Box: React.FC<CardProps> = ({menuType}) => {
     const { data } = useQuery([menuType, selectType], () => fetchMenuByType(selectType))
     return (
         <div className="flex flex-wrap justify-center gap-4 p-3">
-            {data?.map((_el) => _el.pt.food.map(el =>
-                <Card menuType={menuType} menu={el} menuName={_el.pt.name} key={el.name}/>
-            ))
+            {(() => { 
+                let globalIndex:number = 0
+                return data?.map((_el, i: number) => { 
+                return _el.pt.food.map((el, i2: number) => {
+                globalIndex++
+               return <Card timeToFadeIn={globalIndex} menuType={menuType} menu={el} menuName={_el.pt.name} key={globalIndex}/>
             }
+            )})
+            })()}
         </div>
     )
 }

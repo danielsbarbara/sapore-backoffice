@@ -1,11 +1,10 @@
 import Image from "next/image"
-import { EditCardBut } from "./EditCardBut"
-import { MdCancel, MdDelete } from "react-icons/md"
-import { useRef, useState } from "react"
-import { updateAllMenu } from "../_server/actions"
+import { ChangeEvent, useRef, useState } from "react"
 import toast from "react-hot-toast"
-import { useRouter } from "next/navigation"
+import { MdCancel, MdDelete } from "react-icons/md"
 import { QueryClient, useQueryClient } from "react-query"
+import { deleteImage, DeleteImgReturn, updateAllMenu } from "../_server/actions"
+import { EditCardBut } from "./EditCardBut"
 
 interface CardProps {
     menu: {
@@ -16,12 +15,14 @@ interface CardProps {
     }
     menuName: string
     menuType: string
+    timeToFadeIn: number
 }
 
-export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
+export const Card: React.FC<CardProps> = ({ menu, menuName, menuType, timeToFadeIn }) => {
     const query: QueryClient = useQueryClient()
     const [isEdit, setEdit] = useState<boolean>(false)
     const [disabled, setDisabled] = useState<boolean>(false)
+    const [file, setFile] = useState<File | null>(null)
 
     const nameRef = useRef<HTMLInputElement>(null)
     const priceRef = useRef<HTMLInputElement>(null)
@@ -34,10 +35,12 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
 
     const handleSubmit = async (): Promise<void | string> => {
         if (!nameRef.current?.value || !priceRef.current?.value) return errMsg('Não é premitido campos vazios')
-
         setDisabled(() => true)
-        const values = { nameRef, priceRef, descRef, menuName, oldName: name }
+
+        const values = { nameRef, priceRef, descRef, menuName, oldName: name, file }
+
         const submit: boolean = await updateAllMenu(values)
+
         if (!submit) {
             errMsg('Ocorreu um erro, tenta mais tade')
             setDisabled(() => false)
@@ -49,10 +52,32 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
         }
     }
 
+    const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
+        ev.target.files?.length && setFile(() => ev.target.files![0])
+    }
+
+    const handleDeleteImage = async () => {
+        const values = {
+            name,
+            menuName,
+            imageUrl
+        }
+        const deletedUrl: DeleteImgReturn = await deleteImage(values)
+        if (deletedUrl.type === 'S') {
+            sucessMsg(deletedUrl.message)
+        } else {
+            errMsg(deletedUrl.message)
+        }
+        query.invalidateQueries([menuType])
+
+        setEdit(() => false)
+    }
     return (
         <div
-            className="flex flex-col justify-between py-2 border-black 
-                    border-[2px] w-[20rem] h-[14.4rem] rounded-xl p-1">
+            className={`flex flex-col justify-between py-2 border-black 
+                    border-[2px] w-[20rem] h-[14.4rem] rounded-xl p-1 transition-all
+                    animate-menuFadeIn`}
+            style={{ animationDelay: `${timeToFadeIn / 7}s`, animationFillMode: 'backwards' }}>
             <div className="flex justify-between px-2">
                 {isEdit ?
                     <>
@@ -77,13 +102,30 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
             </div>
             <div className="flex justify-between">
                 <div className="relative h-[10rem] w-[10rem] rounded-lg">
-                    {imageUrl &&
+                    {imageUrl && !isEdit ?
                         <Image
                             className="object-cover rounded-lg"
                             fill
                             src={imageUrl}
                             alt={`${imageUrl} imagem`}
-                        />}
+                        /> : isEdit &&
+                        <div className="w-8">
+                            <label
+                                htmlFor="image"
+                                className={`bg-gray-400 rounded-md inline-block p-1 transition-all
+                                duration-200 ${!!!file && 'hover:cursor-pointer hover:shadow-xl hover:-translate-y-[3px] active:shadow-md active:-translate-y-[1px]'} mb-1`}>
+                                {file !== null ? 'Imagem pronta p/ envio' : 'Carregar imagem'}
+                            </label>
+                            <input disabled={!!file} className="hidden" type="file" onChange={handleChange} id="image" />
+                            {imageUrl &&
+                                <button className="bg-red-800 rounded-md p-1 
+                             text-white mt-1 transition-all duration-200 hover:-translate-y-[2px] 
+                             hover:shadow-lg active:-tranlate-y-[1px] active:shadow-md"
+                                    onClick={() => handleDeleteImage()}>
+                                    Eliminar Imagem
+                                </button>}
+                        </div>
+                    }
                 </div>
                 {isEdit && description ?
                     <textarea
@@ -101,8 +143,8 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType }) => {
                         handleSubmit={handleSubmit}
                         isEdit={isEdit}
                         setEdit={setEdit} />
-                    <button>
-                        <MdDelete size={30} />
+                    <button className="hover:scale-110 active:scale-95">
+                        <MdDelete size={30}/>
                     </button>
                 </div>
             </div>
