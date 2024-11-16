@@ -59,8 +59,8 @@ export const Drink: React.FC<DrinksProps> = ({ _id, item, nameRef, priceRef, dri
                     </>
                     :
                     <>
-                        <p className={`${+item.price === 0 && 'font-bold'}`}>{item.pt.name}</p>
-                        <p>{+item.price !== 0 && `${item.price}€`}</p>
+                        <p className={`${+item.price === 0 && 'font-bold'} md:text-lg lg:text-2xl`}>{item.pt.name}</p>
+                        <p className="md:text-lg lg:text-2xl">{+item.price !== 0 && `${item.price}€`}</p>
                     </>
                 }
             </div>

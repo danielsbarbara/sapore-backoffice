@@ -28,11 +28,10 @@ export const Modal: React.FC = () => {
             router.refresh()
         }
     }
-
-    console.log(menu)
     return (
         <div className="modal">
-            <div className="bg-white overflow-scroll flex flex-col items-center h-[40rem] w-[50rem]
+            <div className="bg-white overflow-scroll flex flex-col items-center h-[50rem] w-[32rem]
+            md:w-[60rem] lg:w-[83rem] lg:h-[65rem]
         transition-all duration-500 animate-modalEntry shadow-lg shadow-black/50 rounded-lg">
                 <div className="flex justify-center w-full">
                     <div className="flex flex-grow justify-center pt-5">
@@ -42,11 +41,11 @@ export const Modal: React.FC = () => {
                 <div className="flex flex-wrap justify-center gap-5 pb-5 pt-10">
                     {menu?.menu.map(item =>
                         <div className="w-[10rem] border-[1px] border-y-gray-300
-                    rounded-lg p-1 flex flex-col justify-between"
+                    rounded-lg p-1 flex flex-col justify-between md:w-[15rem]"
                             key={Math.random()}>
                             <div className="flex gap-5">
-                                <p className="text-sm">{item.pt.name}</p>
-                                <p>{item.price}€</p>
+                                <p className="text-sm md:text-lg">{item.pt.name}</p>
+                                <p className="md:text-lg">{item.price}€</p>
                             </div>
                             <div className="flex justify-between">
                                 <Image
@@ -57,7 +56,7 @@ export const Modal: React.FC = () => {
                                     src={item.imageUrl}
                                 />
                                 <button className="self-end" onClick={() => handleSubmit(item._id)}>
-                                    <IoMdAddCircle size={20} />
+                                    <IoMdAddCircle size={23} />
                                 </button>
                             </div>
                         </div>)}

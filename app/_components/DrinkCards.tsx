@@ -20,7 +20,7 @@ export const DrinkCards: React.FC<DrinkCardsProps> = ({ drinkQuery }) => {
                 <div key={i} className="border-[1px] border-black rounded-lg p-2 
                 w-[20rem] flex flex-col gap-3 animate-menuFadeIn"
                     style={{ animationDelay: `${i / 7}s`, animationFillMode: 'backwards' }}>
-                    <p className="text-center text-xl font-bold">{el.menuName}</p>
+                    <p className="text-center text-xl font-bold lg:text-2xl">{el.menuName}</p>
                     {el.menu.map((_el) =>
                         <Drink
                             drinkQuery={drinkQuery}

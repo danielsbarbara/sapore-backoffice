@@ -33,7 +33,7 @@ export const DinamicSelect: React.FC<DinamicSelectProps> = ({ type, selectValue 
                 // defaultValue={valueOptions[0].value}
                 value={selectType}
                 onChange={(e) => handleChange(e)}
-                className="p-2 text-lg font-bold rounded-lg">
+                className="p-2 text-lg font-bold rounded-lg md:text-[1.7rem]">
                 {valueOptions.map(el =>
                     <option value={el.value} key={el.value}>
                         {el.descr}

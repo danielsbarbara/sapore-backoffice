@@ -70,9 +70,9 @@ export const Card: React.FC<CardProps> = ({ menuType, menu, menuName, timeToFade
     }
     return (
         <div
-            className={`flex flex-col justify-between py-2 border-black 
-                    border-[2px] w-[20rem] h-[14.4rem] rounded-xl p-1 transition-all
-                    animate-menuFadeIn`}
+            className={`flex flex-col justify-around py-2 border-black 
+                    border-[2px] w-[17rem] h-[14.4rem] md:w-[25rem] md:h-[20rem] lg:w-[35rem] 
+                    rounded-xl p-1 transition-all animate-menuFadeIn md:text-lg lg:text-2xl`}
             style={{ animationDelay: `${timeToFadeIn / 7}s`, animationFillMode: 'backwards' }}>
             <div className="flex justify-between px-2">
                 {isEdit ?
@@ -130,7 +130,7 @@ export const Card: React.FC<CardProps> = ({ menuType, menu, menuName, timeToFade
                         defaultValue={description}
                         className="border-[1px] border-black/30 rounded-lg" />
                     :
-                    <p className="max-w-[7rem] text-sm ml-2">{description}</p>}
+                    <p className="max-w-[15rem] text-sm ml-2 md:text-lg lg:text-2xl">{description}</p>}
                 <div className="flex flex-col self-end">
                     {isEdit && <button onClick={() => setEdit(() => false)}>
                         <MdCancel size={30} />
