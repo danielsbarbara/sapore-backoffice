@@ -1,13 +1,23 @@
 import { ObjectId } from "mongodb"
 import { useEffect, useState } from "react"
+import { MenuSchema } from "../_util/types"
 
+// export interface MenuType {
+//     _id: ObjectId
+//     menuType: string
+//     pt: {
+//         name: string
+//         food: { name: string, price: string, description: string, imageUrl: string }[]
+//     }
+// }
 export interface MenuType {
     _id: ObjectId
-    menuType: string
-    pt: {
-        name: string
-        food: { name: string, price: string, description: string, imageUrl: string }[]
+    day: {
+        pt: string
+        en: string
+        fr: string
     }
+    menu: MenuSchema[]
 }
 
 export interface FirstFetch {

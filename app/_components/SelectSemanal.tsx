@@ -7,7 +7,7 @@ export const SelectSemanal: React.FC = () => {
     return (
         <>
             <select
-                className="p-2 text-lg font-bold rounded-lg"
+                className="p-2 text-lg font-bold rounded-lg lg:text-2xl"
                 value={day}
                 onChange={(e) => handleChange(e)}>
                 <option value="Segunda-Feira">Segunda-Feira</option>

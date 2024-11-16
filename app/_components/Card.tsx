@@ -5,20 +5,16 @@ import { MdCancel, MdDelete } from "react-icons/md"
 import { QueryClient, useQueryClient } from "react-query"
 import { deleteImage, DeleteImgReturn, updateAllMenu } from "../_server/actions"
 import { EditCardBut } from "./EditCardBut"
+import { MenuSchema } from "../_util/types"
 
 interface CardProps {
-    menu: {
-        name: string
-        price: string
-        imageUrl: string
-        description: string
-    }
+    menu: MenuSchema
     menuName: string
-    menuType: string
     timeToFadeIn: number
+    menuType: string
 }
 
-export const Card: React.FC<CardProps> = ({ menu, menuName, menuType, timeToFadeIn }) => {
+export const Card: React.FC<CardProps> = ({ menuType, menu, menuName, timeToFadeIn }) => {
     const query: QueryClient = useQueryClient()
     const [isEdit, setEdit] = useState<boolean>(false)
     const [disabled, setDisabled] = useState<boolean>(false)
@@ -31,14 +27,14 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType, timeToFade
     const sucessMsg = (msg: string): string => toast.success(msg)
     const errMsg = (msg: string): string => toast.error(msg)
 
-    const { name, price, imageUrl, description } = menu
+    const { pt: { name, description }, price, imageUrl, _id } = menu
 
     const handleSubmit = async (): Promise<void | string> => {
         if (!nameRef.current?.value || !priceRef.current?.value) return errMsg('Não é premitido campos vazios')
         setDisabled(() => true)
 
-        const values = { nameRef, priceRef, descRef, menuName, oldName: name, file }
-
+        const values = { nameRef, priceRef, descRef, _id ,file }
+        
         const submit: boolean = await updateAllMenu(values)
 
         if (!submit) {
@@ -134,7 +130,7 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType, timeToFade
                         defaultValue={description}
                         className="border-[1px] border-black/30 rounded-lg" />
                     :
-                    <p className="max-w-[7rem] text-sm">{description}</p>}
+                    <p className="max-w-[7rem] text-sm ml-2">{description}</p>}
                 <div className="flex flex-col self-end">
                     {isEdit && <button onClick={() => setEdit(() => false)}>
                         <MdCancel size={30} />
@@ -144,7 +140,7 @@ export const Card: React.FC<CardProps> = ({ menu, menuName, menuType, timeToFade
                         isEdit={isEdit}
                         setEdit={setEdit} />
                     <button className="hover:scale-110 active:scale-95">
-                        <MdDelete size={30}/>
+                        <MdDelete size={30} />
                     </button>
                 </div>
             </div>

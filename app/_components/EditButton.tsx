@@ -3,6 +3,7 @@ import { MdEdit } from "react-icons/md"
 import { updateMenu } from "../_server/actions"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { ObjectId } from "mongodb"
 
 interface EditButtonProps {
     isEdit: boolean
@@ -11,11 +12,12 @@ interface EditButtonProps {
     priceRef: React.MutableRefObject<HTMLInputElement | null>
     textRef: React.MutableRefObject<HTMLTextAreaElement | null>
     day: string
-    originalName: string
+    _id: ObjectId
+    // originalName: string
     setUpdating: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const EditButton: React.FC<EditButtonProps> = ({ setUpdating, isEdit, setEdit, nameRef, priceRef, textRef, day, originalName }) => {
+export const EditButton: React.FC<EditButtonProps> = ({ setUpdating, isEdit, setEdit, nameRef, priceRef, textRef, day, _id }) => {
     const router = useRouter()
     const notify = (message: string) => toast.success(message) 
     const notifyE = (message: string) => toast.error(message)
@@ -28,7 +30,7 @@ export const EditButton: React.FC<EditButtonProps> = ({ setUpdating, isEdit, set
 
         if(!name || !price || !text) return
 
-        const update = await updateMenu(name, price, text, day, originalName)
+        const update = await updateMenu(name, price, text, day, _id)
 
         if(update) {
             notify('Menu Actualizado!')

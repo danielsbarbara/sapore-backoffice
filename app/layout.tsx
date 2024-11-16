@@ -21,9 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className} antialiased flex bg-gray-300`}>
+      <body className={`grid-layout ${montserrat.className} antialiased bg-gray-300`}>
           <Menu4Layout />
-        <div className="ml-64 w-full flex justify-center items-center">
+        <div className="row-start-2 md:col-start-2 md:row-start-1">
         {children}
         </div>
       </body>

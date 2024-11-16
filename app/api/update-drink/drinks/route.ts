@@ -3,16 +3,15 @@ import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 interface ReqType {
-    oldName: string
     name: string
     price: string
-    id: ObjectId
+    _id: ObjectId
 }
 
 export async function POST(req: NextResponse){
-    const {oldName, name, price, id} = await req.json() as ReqType
+    const {name, price, _id} = await req.json() as ReqType
     try{
-        const isUpdated = await updateDrink(oldName, name, price, id)
+        const isUpdated = await updateDrink(name, price, _id)
         if(!isUpdated) throw new Error('Ocorreu um erro a actualizar')
         return Response.json({result: isUpdated})
     }catch(err){

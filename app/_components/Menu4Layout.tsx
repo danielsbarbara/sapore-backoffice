@@ -1,14 +1,13 @@
 import { Logo } from "./Logo"
-import { LogoutButton } from "./LogoutButton"
 import { MenuCards } from "./MenuCards"
 
 export const Menu4Layout: React.FC = () => {
     return (
-        <div className="w-[17rem] h-screen border-r-2 border-black flex flex-col 
-        items-center justify-between p-3 fixed">
+        <div className="row-start-1 md:col-start-1 grid-side-bar-template 
+        border-b-2 border-black md:border-b-0 md:border-r-2">
           <Logo />
           <MenuCards />
-          <LogoutButton/>
+          {/* <LogoutButton/> */}
         </div>
     )
 }

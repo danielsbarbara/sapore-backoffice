@@ -14,11 +14,11 @@ export const EditCardBut: React.FC<EditCardButProps> = ({_id, isEdit, setEdit, h
     return (
         <>
             {!isEdit ? <button className="transition-all hover:scale-110 active:scale-90" onClick={() => setEdit(() => !isEdit)}>
-                <MdEdit size={30} />
+                <MdEdit size={20} />
             </button>
                 :
                 <button className="transition-all hover:scale-110 active:scale-90" onClick={() => handleSubmit(oldName, _id)}>
-                    <FaCheck size={30}/>
+                    <FaCheck size={20}/>
                 </button>}
         </>
     )

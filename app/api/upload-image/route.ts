@@ -37,10 +37,10 @@ export async function POST(req: NextRequest) {
         
         console.log(`Imagem salva com sucesso em: ${filePath}`);
         const name = formData.get('name') as string
-        const menuName = formData.get('menuName') as string
+        const id = formData.get('_id') as string
         const databaseImgUrl = `/teste/${file.name}`
 
-        const updateUrlOnDB = await updateImageUrl(name, menuName, databaseImgUrl)
+        const updateUrlOnDB = await updateImageUrl(name, id, databaseImgUrl)
 
 
         return Response.json({ message: 'Image uploaded' }, { status: 200 })

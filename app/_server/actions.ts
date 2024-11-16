@@ -25,12 +25,12 @@ export const getMenuByType = async (menuType: string) => {
     }
 }
 
-export const addMenu = async (menuName: string, menu_id: ObjectId, day: string) => {
+export const addMenu = async (menu_id: ObjectId, day: string) => {
 
     const options = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ menuName, menu_id, day })
+        body: JSON.stringify({ menu_id, day })
     }
 
     const res = await fetch('/api/add-menu', options)
@@ -38,7 +38,7 @@ export const addMenu = async (menuName: string, menu_id: ObjectId, day: string) 
     return true
 }
 
-export const updateMenu = async (name: string, price: string, text: string, day: string, originalName: string) => {
+export const updateMenu = async (name: string, price: string, text: string, day: string, _id: ObjectId) => {
 
     const options = {
         method: 'POST',
@@ -48,7 +48,7 @@ export const updateMenu = async (name: string, price: string, text: string, day:
             name,
             price,
             text,
-            originalName
+            _id
         })
     }
     const res = await fetch('/api/update-menu', options)
@@ -98,8 +98,7 @@ interface updateMenuInput {
     nameRef: RefObject<HTMLInputElement>
     priceRef: RefObject<HTMLInputElement>
     descRef: RefObject<HTMLTextAreaElement>
-    menuName: string
-    oldName: string
+    _id: ObjectId
     file: File | null
 }
 
@@ -107,8 +106,7 @@ export interface NewObjType {
     name: string;
     price: string;
     desc: string | undefined;
-    menuName: string;
-    oldName: string;
+    _id: ObjectId
 }
 
 export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> => {
@@ -116,8 +114,7 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
         name: values.nameRef.current!.value,
         price: values.priceRef.current!.value,
         desc: values.descRef.current?.value,
-        menuName: values.menuName,
-        oldName: values.oldName,
+        _id: values._id,
     }
 
     const options: RequestInit = {
@@ -130,7 +127,7 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
     if(res.status === 200 && values.file){
         const formData: FormData = new FormData()
         formData.append('image', values.file)
-        formData.append('menuName', values.menuName)
+        formData.append('_id', String(values._id))
         formData.append('name', values.nameRef.current!.value)
 
         const options: RequestInit = {
@@ -147,11 +144,11 @@ export const updateAllMenu = async (values: updateMenuInput): Promise<boolean> =
     return res.status === 200
 }
 
-export const updateDrinkName = async (oldName: string, name: string, _id: ObjectId): Promise<boolean> => {
+export const updateDrinkName = async (name: string, _id: ObjectId): Promise<boolean> => {
     const options: RequestInit = {
         method: 'POST',
         headers: { 'Contet-Type': 'application/json' },
-        body: JSON.stringify({ oldName, name, _id })
+        body: JSON.stringify({name, _id })
     }
 
     const res: Response = await fetch('api/update-drink/wines', options)
@@ -162,14 +159,13 @@ export const updateDrinkName = async (oldName: string, name: string, _id: Object
     return false
 }
 
-export const updateDrinks = async (oldName: string, name: string, price: string, id: ObjectId) => {
-    console.log(oldName, name, price, id)
+export const updateDrinks = async (name: string, price: string, _id: ObjectId) => {
     const options: RequestInit = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ oldName, name, price, id })
+        body: JSON.stringify({name, price, _id })
     }
-
+    console.log(_id)
     const res: Response = await fetch('api/update-drink/drinks', options)
     if (res.status === 200) {
         const { result }: { result: boolean } = await res.json()

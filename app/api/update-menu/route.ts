@@ -1,4 +1,5 @@
 import { updateMenu, updateMenuTipsOfDay } from "@/app/_server/CRUD";
+import { ObjectId } from "mongodb";
 import { NextRequest } from "next/server";
 
 interface ReqType {
@@ -6,16 +7,15 @@ interface ReqType {
     name: string
     price: string
     text: string
-    originalName: string
+    _id: ObjectId
 }
 
 export async function POST(req: NextRequest){
-    const {day, name, price, text, originalName} = await req.json() as ReqType
+    const {day, name, price, text, _id} = await req.json() as ReqType
 
     try{
-        const isUpdatedTipsOfDay = await updateMenuTipsOfDay(day, name, price, text, originalName)
-        const isUpdatedMenu = await updateMenu(name, price, text, originalName)
-        if(!isUpdatedMenu && !isUpdatedTipsOfDay) Response.error()
+        const isUpdatedMenu = await updateMenu(name, price, text, _id)
+        if(!isUpdatedMenu) Response.error()
 
         Response.json({message: true})
     } catch(e: unknown){
