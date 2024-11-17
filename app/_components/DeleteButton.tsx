@@ -3,18 +3,19 @@ import { MdDelete } from "react-icons/md"
 import { deleteMenu } from "../_server/actions"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { ObjectId } from "mongodb"
 
 interface DeleteButton {
-    menuName: string
+    id: ObjectId
     day: string
 }
 
-export const DeleteButton: React.FC<DeleteButton> = ({ menuName, day }) => {
+export const DeleteButton: React.FC<DeleteButton> = ({ id, day }) => {
     const router = useRouter()
     const notify = () => toast.success('Menu eliminado com sucesso!')
     
     const handleDelete = async () => {
-        const isDeleted = await deleteMenu(menuName, day) as boolean
+        const isDeleted = await deleteMenu(id, day) as boolean
         if (isDeleted) {
             notify()
             return router.refresh()

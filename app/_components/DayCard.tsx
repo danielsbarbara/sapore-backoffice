@@ -17,7 +17,7 @@ export const DayCard: React.FC<DayCardProps> = ({ menu, day, time }) => {
     const [isEdit, setEdit] = useState<boolean>(false)
     const [isUpdating, setUpdating] = useState<boolean>(false)
 
-    const { pt: {name}, price, imageUrl, pt:{description} } = menu
+    const { pt: {name}, price, imageUrl, pt:{description}, _id } = menu
     return (
         <div className="flex flex-col justify-around py-2 border-black 
         border-[2px] w-[17rem] h-[14.4rem] md:w-[25rem] md:h-[20rem] lg:w-[35rem] 
@@ -79,7 +79,7 @@ export const DayCard: React.FC<DayCardProps> = ({ menu, day, time }) => {
                         day={day}
                         isEdit={isEdit}
                         setEdit={setEdit} />
-                    <DeleteButton menuName={name} day={day} />
+                    <DeleteButton id={_id} day={day} />
                 </div>
             </div>
         </div>

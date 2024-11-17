@@ -28,9 +28,9 @@ export const getMenuByType = async (menuType: string) => {
     return await Promise.all(result.map(async(el) => ({...el, menu: await getMenuById(el.menu)}))) as TipsOfDayType[]
 }
 
-export const deleteMenu = async (menuName: string, day: string) => {
+export const deleteMenu = async (id: string, day: string) => {
     const collection = await GetCollection(DBname, 'tips-of-day')
-    const result = await collection.updateOne({ 'day.pt': day }, { $pull: { menu: { name: menuName } } })
+    const result = await collection.updateOne({ 'day.pt': day }, { $pull: { menu: new ObjectId(id)  } })
     return result.acknowledged
 }
 export const insertMenu = async (menu_id: any, day: string) => {
@@ -58,7 +58,6 @@ export const getMenuByIdName = async (menuName: string, menu_id: ObjectId, langu
 }
 
 export const updateMenuTipsOfDay = async (day: string, name: string, price: string, text: string, originalName: string) => {
-    console.log(text)
     const collection = await GetCollection(DBname, 'tips-of-day')
     const result = await collection.updateOne({ 'day.pt': day, 'menu.name': originalName }, 
         { $set: { 'menu.$.name': name, 'menu.$.price': price, 'menu.$.ingredients.pt': text } })

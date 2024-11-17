@@ -6,8 +6,8 @@ import { NextRequest } from "next/server";
 export async function DELETE(_: NextRequest, {params}: Params){
     const {menuName} = params as {menuName: string}
     try{
-        const [menu, day] = menuName.split('&')
-        const isDeleted = await deleteMenu(menu, day) as {acknowledged: boolean}
+        const [id, day] = menuName.split('&')
+        const isDeleted = await deleteMenu(id, day) as {acknowledged: boolean}
         return Response.json({isDeleted: isDeleted.acknowledged})
     } catch(err: any){
         return Response.json({message: err.message})

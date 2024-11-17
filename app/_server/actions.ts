@@ -2,13 +2,13 @@ import { ObjectId } from "mongodb"
 import { dataType } from "../_components/Box"
 import { RefObject } from "react"
 
-export const deleteMenu = async (menuName: string, day: string): Promise<boolean> => {
+export const deleteMenu = async (id: ObjectId, day: string): Promise<boolean> => {
     const options = {
         method: 'DELETE',
         headers: { 'Contet-Type': 'application/json' }
     }
 
-    const deleteMenu = await fetch(`api/delete/${menuName}&${day}`, options)
+    const deleteMenu = await fetch(`api/delete/${id}&${day}`, options)
     if (deleteMenu.status === 200) return true
     return false
 }
